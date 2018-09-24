@@ -20,6 +20,9 @@ class LibGlogConan(ConanFile):
     build_subfolder = "build_subfolder"
     short_paths = False
 
+    def configure(self):
+        del self.settings.compiler.libcxx
+
     def source(self):
         rev = "8d7a107d68c127f3f494bb7807b796c8c5a97a82"
         tools.get("https://github.com/google/glog/archive/{0}.tar.gz".format(rev))
