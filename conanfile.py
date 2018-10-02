@@ -35,6 +35,8 @@ class LibGlogConan(ConanFile):
         cmake = CMake(self)
         cmake.definitions["BUILD_TESTING"] = "OFF"
         cmake.definitions["WITH_GFLAGS"] = "OFF"
+        if not tools.os_info.is_windows:
+            cmake.definitions["CMAKE_POSITION_INDEPENDENT_CODE"] = "ON"
         cmake.configure(build_folder=self.build_subfolder)
         cmake.build()
         cmake.install()
