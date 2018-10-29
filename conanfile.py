@@ -40,7 +40,6 @@ class LibGlogConan(ConanFile):
         cmake.configure(build_folder=self.build_subfolder)
         cmake.build()
         cmake.install()
-        cmake.patch_config_paths()
 
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)
