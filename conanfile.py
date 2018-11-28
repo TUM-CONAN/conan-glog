@@ -13,7 +13,7 @@ class LibGlogConan(ConanFile):
     exports = [
         "patches/CMakeProjectWrapper.txt"
     ]
-    url = "https://gitlab.lan.local/conan/conan-glog"
+    url = "https://git.ircad.fr/conan/conan-glog"
     license="BSD 3-Clause"
     description = "C++ implementation of the Google logging module."
     source_subfolder = "source_subfolder"
