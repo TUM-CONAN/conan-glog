@@ -26,8 +26,8 @@ class LibGlogConan(ConanFile):
         del self.settings.compiler.libcxx
 
     def source(self):
-        tools.get("https://github.com/google/glog/archive/v{0}.tar.gz".format(upstream_version))
-        os.rename("glog-" + rev, self.source_subfolder)
+        tools.get("https://github.com/google/glog/archive/v{0}.tar.gz".format(self.upstream_version))
+        os.rename("glog-" + self.upstream_version, self.source_subfolder)
 
     def build(self):
         glog_source_dir = os.path.join(self.source_folder, self.source_subfolder)
