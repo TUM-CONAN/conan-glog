@@ -5,7 +5,9 @@ import shutil
 
 class LibGlogConan(ConanFile):
     name = "glog"
-    version = "0.3.5-rev-8d7a107"
+    package_revision = ""
+    upstream_version = "0.4.0"
+    version = "{0}{1}".format(upstream_version, package_revision)
     generators = "cmake"
     settings = "os", "arch", "compiler", "build_type"
     options = {"shared": [True, False]}
@@ -24,9 +26,8 @@ class LibGlogConan(ConanFile):
         del self.settings.compiler.libcxx
 
     def source(self):
-        rev = "8d7a107d68c127f3f494bb7807b796c8c5a97a82"
-        tools.get("https://github.com/google/glog/archive/{0}.tar.gz".format(rev))
-        os.rename("glog-" + rev, self.source_subfolder)
+        tools.get("https://github.com/google/glog/archive/v{0}.tar.gz".format(self.upstream_version))
+        os.rename("glog-" + self.upstream_version, self.source_subfolder)
 
     def build(self):
         glog_source_dir = os.path.join(self.source_folder, self.source_subfolder)
