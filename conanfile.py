@@ -33,16 +33,17 @@ class LibGlogConan(ConanFile):
         os.rename("glog-" + self.upstream_version, self.source_subfolder)
 
     def build(self):
-        #Import common flags and defines
+        # Import common flags and defines
         import common
+
         glog_source_dir = os.path.join(self.source_folder, self.source_subfolder)
         shutil.move("patches/CMakeProjectWrapper.txt", "CMakeLists.txt")
 
         cmake = CMake(self)
         
-        #Set common flags
-        cmake.definitions["CMAKE_C_FLAGS"] = common.get_c_flags()
-        cmake.definitions["CMAKE_CXX_FLAGS"] = common.get_cxx_flags()
+        # Set common flags
+        cmake.definitions["SIGHT_CMAKE_C_FLAGS"] = common.get_c_flags()
+        cmake.definitions["SIGHT_CMAKE_CXX_FLAGS"] = common.get_cxx_flags()
         
         cmake.definitions["BUILD_TESTING"] = "OFF"
         cmake.definitions["WITH_GFLAGS"] = "OFF"
