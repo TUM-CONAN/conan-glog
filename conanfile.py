@@ -3,6 +3,7 @@ from conans.util import files
 import os
 import shutil
 
+
 class LibGlogConan(ConanFile):
     name = "glog"
     package_revision = "-r2"
@@ -16,7 +17,7 @@ class LibGlogConan(ConanFile):
         "patches/CMakeProjectWrapper.txt"
     ]
     url = "https://git.ircad.fr/conan/conan-glog"
-    license="BSD 3-Clause"
+    license = "BSD 3-Clause"
     description = "C++ implementation of the Google logging module."
     source_subfolder = "source_subfolder"
     build_subfolder = "build_subfolder"
@@ -40,11 +41,13 @@ class LibGlogConan(ConanFile):
         shutil.move("patches/CMakeProjectWrapper.txt", "CMakeLists.txt")
 
         cmake = CMake(self)
-        
-        # Set common flags
-        cmake.definitions["SIGHT_CMAKE_C_FLAGS"] = common.get_c_flags()
+
+        # Export common flags
         cmake.definitions["SIGHT_CMAKE_CXX_FLAGS"] = common.get_cxx_flags()
-        
+        cmake.definitions["SIGHT_CMAKE_CXX_FLAGS_RELEASE"] = common.get_cxx_flags_release()
+        cmake.definitions["SIGHT_CMAKE_CXX_FLAGS_DEBUG"] = common.get_cxx_flags_debug()
+        cmake.definitions["SIGHT_CMAKE_CXX_FLAGS_RELWITHDEBINFO"] = common.get_cxx_flags_relwithdebinfo()
+
         cmake.definitions["BUILD_TESTING"] = "OFF"
         cmake.definitions["WITH_GFLAGS"] = "OFF"
         if not tools.os_info.is_windows:
