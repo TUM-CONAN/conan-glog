@@ -1,5 +1,4 @@
-from conans import ConanFile, CMake, tools, AutoToolsBuildEnvironment
-from conans.util import files
+from conans import ConanFile, CMake, tools
 import os
 import shutil
 
@@ -23,9 +22,6 @@ class LibGlogConan(ConanFile):
     build_subfolder = "build_subfolder"
     short_paths = False
 
-    def configure(self):
-        del self.settings.compiler.libcxx
-
     def requirements(self):
         self.requires("common/1.0.1@sight/testing")
 
@@ -37,7 +33,6 @@ class LibGlogConan(ConanFile):
         # Import common flags and defines
         import common
 
-        glog_source_dir = os.path.join(self.source_folder, self.source_subfolder)
         shutil.move("patches/CMakeProjectWrapper.txt", "CMakeLists.txt")
 
         cmake = CMake(self)
