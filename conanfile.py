@@ -1,6 +1,5 @@
 from conans import ConanFile, CMake, tools
 import os
-import shutil
 
 
 class LibGlogConan(ConanFile):
@@ -8,19 +7,16 @@ class LibGlogConan(ConanFile):
     package_revision = "-r2"
     upstream_version = "0.4.0"
     version = "{0}{1}".format(upstream_version, package_revision)
+
     generators = "cmake"
     settings = "os", "arch", "compiler", "build_type"
     options = {"shared": [True, False]}
     default_options = "shared=True"
-    exports = [
-        "patches/CMakeProjectWrapper.txt"
-    ]
     url = "https://git.ircad.fr/conan/conan-glog"
     license = "BSD 3-Clause"
     description = "C++ implementation of the Google logging module."
     source_subfolder = "source_subfolder"
-    build_subfolder = "build_subfolder"
-    short_paths = False
+    short_paths = True
 
     def requirements(self):
         self.requires("common/1.0.1@sight/testing")
@@ -33,21 +29,22 @@ class LibGlogConan(ConanFile):
         # Import common flags and defines
         import common
 
-        shutil.move("patches/CMakeProjectWrapper.txt", "CMakeLists.txt")
+        # Generate Cmake wrapper
+        common.generate_cmake_wrapper(
+            cmakelists_path='CMakeLists.txt',
+            source_subfolder=self.source_subfolder,
+            build_type=self.settings.build_type
+        )
 
         cmake = CMake(self)
-
-        # Export common flags
-        cmake.definitions["SIGHT_CMAKE_CXX_FLAGS"] = common.get_cxx_flags()
-        cmake.definitions["SIGHT_CMAKE_CXX_FLAGS_RELEASE"] = common.get_cxx_flags_release()
-        cmake.definitions["SIGHT_CMAKE_CXX_FLAGS_DEBUG"] = common.get_cxx_flags_debug()
-        cmake.definitions["SIGHT_CMAKE_CXX_FLAGS_RELWITHDEBINFO"] = common.get_cxx_flags_relwithdebinfo()
+        cmake.verbose = True
 
         cmake.definitions["BUILD_TESTING"] = "OFF"
         cmake.definitions["WITH_GFLAGS"] = "OFF"
         if not tools.os_info.is_windows:
             cmake.definitions["CMAKE_POSITION_INDEPENDENT_CODE"] = "ON"
-        cmake.configure(build_folder=self.build_subfolder)
+
+        cmake.configure()
         cmake.build()
         cmake.install()
 
