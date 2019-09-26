@@ -19,7 +19,7 @@ class LibGlogConan(ConanFile):
     short_paths = True
 
     def requirements(self):
-        self.requires("common/1.0.1@sight/testing")
+        self.requires("common/1.0.1@sight/stable")
 
     def source(self):
         tools.get("https://github.com/google/glog/archive/v{0}.tar.gz".format(self.upstream_version))
@@ -37,7 +37,6 @@ class LibGlogConan(ConanFile):
         )
 
         cmake = CMake(self)
-        cmake.verbose = True
 
         cmake.definitions["BUILD_TESTING"] = "OFF"
         cmake.definitions["WITH_GFLAGS"] = "OFF"
