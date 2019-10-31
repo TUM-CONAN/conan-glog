@@ -4,7 +4,7 @@ import os
 
 class LibGlogConan(ConanFile):
     name = "glog"
-    package_revision = "-r2"
+    package_revision = "-r3"
     upstream_version = "0.4.0"
     version = "{0}{1}".format(upstream_version, package_revision)
 
@@ -19,7 +19,7 @@ class LibGlogConan(ConanFile):
     short_paths = True
 
     def requirements(self):
-        self.requires("common/1.0.1@sight/stable")
+        self.requires("common/1.0.2@sight/testing")
 
     def source(self):
         tools.get("https://github.com/google/glog/archive/v{0}.tar.gz".format(self.upstream_version))
