@@ -19,7 +19,7 @@ class LibGlogConan(ConanFile):
     short_paths = True
 
     def requirements(self):
-        self.requires("common/1.0.2@sight/testing")
+        self.requires("common/1.0.2@sight/stable")
 
     def source(self):
         tools.get("https://github.com/google/glog/archive/v{0}.tar.gz".format(self.upstream_version))
